@@ -1,0 +1,102 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Lexend:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-cream:    #FAF9F6;
+  --color-sidebar:  #3D3028;
+  --color-sidebar-hover: #4F3F35;
+  --color-primary:  #C28E72;
+  --color-primary-dark: #A67352;
+  --color-primary-light: #F5EDE6;
+  --color-premium:  #7EA86A;
+  --color-medium:   #C07558;
+  --color-low:      #D9534F;
+  --color-dirty:    #8B2020;
+
+  --font-display: 'Lexend', sans-serif;
+  --font-body:    'Inter', sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--color-cream);
+  color: #1E1E1E;
+  height: 100vh;
+  overflow: hidden;
+}
+
+h1, h2, h3, h4, button, .font-display {
+  font-family: var(--font-display);
+}
+
+/* scrollbar */
+
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #D4C4B8; border-radius: 2px; }
+
+/* scan button pulse */
+@keyframes pulse-ring {
+  0%   { box-shadow: 0 0 0 0 rgba(194,142,114,0.4); }
+  70%  { box-shadow: 0 0 0 10px rgba(194,142,114,0); }
+  100% { box-shadow: 0 0 0 0 rgba(194,142,114,0); }
+}
+.btn-pulse { animation: pulse-ring 1.8s ease-out infinite; }
+
+/* skeleton shimmer */
+@keyframes shimmer {
+  0%   { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+.skeleton {
+  background: linear-gradient(90deg, #f0ede9 25%, #e8e4e0 50%, #f0ede9 75%);
+  background-size: 800px 100%;
+  animation: shimmer 1.4s infinite;
+  border-radius: 8px;
+}
+
+/* number counter */
+@keyframes count-up {
+  from { transform: translateY(6px); opacity: 0; }
+  to   { transform: translateY(0);   opacity: 1; }
+}
+.count-animate { animation: count-up 0.4s ease-out; }
+
+/* grade badge */
+.grade-premium { color: #7EA86A; background: #EDF5E9; }
+.grade-medium  { color: #C07558; background: #FBF0EB; }
+.grade-low     { color: #D9534F; background: #FBEBEB; }
+.grade-dirty   { color: #8B2020; background: #F5E0E0; }
+
+/* ── Spin animation for loading button ── */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ── Responsive: stack layout on narrow screens ── */
+@media (max-width: 900px) {
+  main {
+    padding: 24px 20px !important;
+  }
+}
+
+@media (max-width: 700px) {
+  /* Hide sidebar text, show only icons */
+  aside {
+    width: 64px !important;
+    padding: 24px 8px !important;
+  }
+  aside .logo-text { display: none; }
+  aside nav button span { display: none; }
+  aside nav button {
+    justify-content: center !important;
+    padding: 12px !important;
+  }
+
+  /* Stack upload + result vertically */
+  .main-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
