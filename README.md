@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🌾 Safe Grain v3.0
+# Safe Grain v3.0
 
 ### Smart Rice Detector — AI-Powered Rice Quality Analysis
 
@@ -8,27 +8,26 @@
 
 ![Python](https://img.shields.io/badge/Python-3.10+-3776AB?style=flat-square&logo=python&logoColor=white)
 ![FastAPI](https://img.shields.io/badge/FastAPI-0.110-009688?style=flat-square&logo=fastapi&logoColor=white)
-![React](https://img.shields.io/badge/React-18-61DAFB?style=flat-square&logo=react&logoColor=black)
-![Vite](https://img.shields.io/badge/Vite-5-646CFF?style=flat-square&logo=vite&logoColor=white)
+![React](https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react&logoColor=black)
+![Vite](https://img.shields.io/badge/Vite-8-646CFF?style=flat-square&logo=vite&logoColor=white)
 ![YOLOv8](https://img.shields.io/badge/YOLOv8-Ultralytics-FF6B35?style=flat-square)
+![Railway](https://img.shields.io/badge/Backend-Railway-0B0D0E?style=flat-square&logo=railway&logoColor=white)
 
 </div>
 
 ---
 
-## 📖 Overview
+## Tentang Proyek
 
-**Safe Grain** adalah sistem deteksi kualitas beras berbasis AI Computer Vision yang dikembangkan
-sebagai Tugas Besar Mata Kuliah Kecerdasan Buatan. Sistem ini mengklasifikasi butir beras secara
-otomatis menggunakan model **YOLOv8** yang dilatih pada dataset beras lokal.
+**Safe Grain** adalah sistem deteksi kualitas beras berbasis AI Computer Vision yang dikembangkan sebagai Tugas Besar Mata Kuliah Kecerdasan Buatan. Sistem ini mengklasifikasi butir beras secara otomatis menggunakan model **YOLOv8** yang dilatih pada dataset beras lokal.
 
 ### Kemampuan Deteksi
 
 | Kelas | Deskripsi | Warna BBox |
 |---|---|---|
-| 🟢 Butir Utuh | Beras tidak patah, kualitas terbaik | Hijau |
-| 🟡 Butir Pecah | Beras patah sebagian | Kuning |
-| 🔴 Benda Asing | Batu, kotoran, atau objek non-beras | Merah |
+| Butir Utuh | Beras tidak patah, kualitas terbaik | Hijau |
+| Butir Pecah | Beras patah sebagian | Kuning |
+| Benda Asing | Batu, kotoran, atau objek non-beras | Merah |
 
 ### Sistem Grading
 
@@ -41,7 +40,27 @@ otomatis menggunakan model **YOLOv8** yang dilatih pada dataset beras lokal.
 
 ---
 
-## 🏗️ Arsitektur Sistem
+## Deployment
+
+| Layer | Platform | URL |
+|---|---|---|
+| Backend (FastAPI) | Railway | https://safe-grain-beras-production.up.railway.app |
+| Frontend (React) | Vercel | https://safe-grain-beras.vercel.app |
+
+### Catatan Deployment
+
+Backend di-deploy menggunakan Docker di Railway. Image menggunakan `python:3.11-slim` dengan dependensi sistem untuk OpenCV (`libgl1`, `libglib2.0-0`, dll.) dan menjalankan server via `uvicorn` pada port yang disediakan Railway secara otomatis lewat environment variable `$PORT`.
+
+Endpoint publik backend:
+
+| URL | Keterangan |
+|---|---|
+| `https://safe-grain-beras-production.up.railway.app/docs` | Swagger UI |
+| `https://safe-grain-beras-production.up.railway.app/health` | Status server |
+
+---
+
+## Arsitektur Sistem
 
 ```
 ┌─────────────────────────────────────────────────────┐
@@ -56,7 +75,7 @@ otomatis menggunakan model **YOLOv8** yang dilatih pada dataset beras lokal.
 └───────┼─────────────────────────────────────────────-┘
         │
 ┌───────▼──────────────────────────────────────────────┐
-│               FastAPI Backend (Python)               │
+│          FastAPI Backend (Railway — Docker)          │
 │  ┌─────────────────────┐  ┌────────────────────────┐ │
 │  │   POST /detect      │  │  GET  /history         │ │
 │  │   GET  /health      │  │  DELETE /history       │ │
@@ -72,14 +91,16 @@ otomatis menggunakan model **YOLOv8** yang dilatih pada dataset beras lokal.
 
 ---
 
-## 📁 Struktur Proyek
+## Struktur Proyek
 
 ```
-safegrain-v3/
+SAFE-GRAIN-BERAS/
 ├── backend/
 │   ├── app.py              ← FastAPI + SQLAlchemy + YOLO inference
 │   ├── best.pt             ← Model YOLOv8 terlatih (6MB)
 │   ├── requirements.txt    ← Python dependencies
+│   ├── Dockerfile          ← Docker config untuk Railway
+│   ├── Procfile            ← Procfile fallback
 │   └── safegrain.db        ← SQLite DB (auto-generated)
 │
 ├── frontend/
@@ -96,7 +117,7 @@ safegrain-v3/
 │   │   │   ├── useDetection.js   ← Logika scan & state
 │   │   │   └── useHistory.js     ← Fetch & manage history
 │   │   ├── utils/
-│   │   │   ├── api.js            ← Fetch wrapper
+│   │   │   ├── api.js            ← Fetch wrapper + base URL
 │   │   │   ├── grading.js        ← Grade calculation
 │   │   │   └── pdfExport.js      ← jsPDF report
 │   │   ├── pages/
@@ -105,16 +126,17 @@ safegrain-v3/
 │   │   ├── App.jsx               ← Root + routing + health check
 │   │   └── index.css             ← Global styles + Tailwind
 │   ├── index.html                ← SEO meta + favicon
-│   └── vite.config.js            ← Vite + Tailwind + proxy
+│   └── vite.config.js            ← Vite + Tailwind + dev proxy
 │
 └── README.md
 ```
 
 ---
 
-## 🚀 Cara Menjalankan
+## Cara Menjalankan (Lokal)
 
 ### Prasyarat
+
 - Python 3.10+
 - Node.js 18+
 - File `best.pt` di folder `backend/`
@@ -122,26 +144,24 @@ safegrain-v3/
 ### 1. Backend
 
 ```bash
-cd safegrain-v3/backend
+cd backend
 
-# Install dependencies
 pip install -r requirements.txt
 
-# Jalankan server
 python app.py
 ```
 
-Server berjalan di → `http://127.0.0.1:5000`
+Server berjalan di `http://127.0.0.1:5000`
 
 | URL | Keterangan |
 |---|---|
-| `http://127.0.0.1:5000/docs` | Swagger UI — dokumentasi API interaktif |
+| `http://127.0.0.1:5000/docs` | Swagger UI |
 | `http://127.0.0.1:5000/health` | Status server |
 
 ### 2. Frontend (Development)
 
 ```bash
-cd safegrain-v3/frontend
+cd frontend
 
 npm install
 npm run dev
@@ -149,18 +169,51 @@ npm run dev
 
 Buka browser → `http://localhost:5173`
 
+Dev proxy sudah dikonfigurasi di `vite.config.js` sehingga request ke `/detect`, `/history`, `/stats`, `/health` diteruskan otomatis ke backend lokal.
+
 ### 3. Build Production
 
 ```bash
 cd frontend && npm run build
-# Kemudian akses via backend: http://127.0.0.1:5000
 ```
+
+Output di `frontend/dist/`. Backend FastAPI sudah dikonfigurasi untuk serve folder `dist/` sebagai static files.
 
 ---
 
-## 📡 API Reference
+## Deploy ke Railway (Backend)
+
+### Prasyarat
+
+- Akun Railway
+- Railway CLI atau push via GitHub
+
+### Langkah
+
+```bash
+# Login Railway CLI
+railway login
+
+# Masuk ke folder backend
+cd backend
+
+# Link ke project Railway (atau buat baru)
+railway init
+
+# Deploy
+railway up
+```
+
+Railway akan otomatis mendeteksi `Dockerfile` dan menggunakannya untuk build. Environment variable `PORT` disediakan Railway secara otomatis.
+
+Pastikan `best.pt` ikut ter-push ke Railway. File ini tidak boleh ada di `.gitignore` karena dibutuhkan saat runtime.
+
+---
+
+## API Reference
 
 ### `POST /detect`
+
 Deteksi kualitas beras dari gambar.
 
 **Request:**
@@ -182,12 +235,15 @@ Deteksi kualitas beras dari gambar.
 ```
 
 ### `GET /history?limit=20`
+
 Riwayat scan terakhir dari database.
 
 ### `DELETE /history`
+
 Hapus semua riwayat.
 
 ### `GET /stats`
+
 Statistik agregat seluruh scan.
 
 ```json
@@ -199,50 +255,53 @@ Statistik agregat seluruh scan.
 ```
 
 ### `GET /health`
+
 Status server dan versi.
 
 ---
 
-## ✨ Fitur Utama
+## Fitur Utama
 
-- **🎯 Deteksi AI Real-time** — YOLOv8 dengan bounding box berwarna per kelas
-- **📷 Live Camera Capture** — Foto langsung dari kamera device
-- **🖱️ Drag & Drop Upload** — Upload gambar dengan seret atau klik
-- **📊 Donut Chart** — Visualisasi proporsi butir utuh/pecah/asing
-- **📈 Halaman Statistik** — Tren keutuhan, distribusi grade, bar chart
-- **💾 Persistent History** — Riwayat scan tersimpan di SQLite
-- **📄 Export PDF** — Laporan lengkap dengan jsPDF
-- **🔔 Server Health Monitor** — Banner otomatis jika backend offline
-- **🎨 Custom Design System** — Tailwind + token warna konsisten
+- **Deteksi AI Real-time** — YOLOv8 dengan bounding box berwarna per kelas
+- **Live Camera Capture** — Foto langsung dari kamera device
+- **Drag & Drop Upload** — Upload gambar dengan seret atau klik
+- **Donut Chart** — Visualisasi proporsi butir utuh/pecah/asing
+- **Halaman Statistik** — Tren keutuhan, distribusi grade, bar chart
+- **Persistent History** — Riwayat scan tersimpan di SQLite
+- **Export PDF** — Laporan lengkap dengan jsPDF
+- **Server Health Monitor** — Banner otomatis jika backend offline
+- **Custom Design System** — Tailwind + token warna konsisten
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 | Layer | Teknologi |
 |---|---|
 | AI/CV Model | YOLOv8 (Ultralytics) |
-| Backend | Python, FastAPI, SQLAlchemy, SQLite |
-| Frontend | React 18, Vite, Tailwind CSS |
+| Backend | Python 3.11, FastAPI, SQLAlchemy, SQLite |
+| Frontend | React 19, Vite 8, Tailwind CSS 4 |
 | Charts | Recharts |
 | PDF | jsPDF |
 | Icons | Phosphor Icons |
 | Upload | React Dropzone |
+| Containerization | Docker |
+| Backend Hosting | Railway |
 
 ---
 
-## 👥 Tim Pengembang
+## Tim Pengembang
 
 **Tugas Besar Mata Kuliah Kecerdasan Buatan**
 
 | Divisi | Anggota |
 |---|---|
 | Computer Vision | Andy Bagus Oesmadi · Maulidah Imroatus Solehah · Mishal Eman |
-| Front-End, Back-End & UI/UX | Venerdi Dinarsa Narendra Putra C. · Vlahadiqa Runayasha Khandeva W. · Zacky Maulanaa |
+| Front-End, Back-End & UI/UX | Venerdi Dinarsa Narendra Putra C. · Vlahadiqa Runayasha Khandeva W. · Zacky Maulana |
 | System Analyst | Muhammad Zidan Al Farezel · Vichars Mazcheranou Hafizh |
 
 ---
 
 <div align="center">
-  <sub>Safe Grain v3.0 · Smart Rice Detector · Built with ❤️ using YOLOv8 + FastAPI + React</sub>
+  <sub>Safe Grain v3.0 · Smart Rice Detector · Built with YOLOv8 + FastAPI + React</sub>
 </div>
