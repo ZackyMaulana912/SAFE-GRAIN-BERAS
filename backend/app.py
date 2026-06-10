@@ -40,7 +40,7 @@ app = FastAPI(
 
 import os as _os
 
-ALLOWED_ORIGINS = _os.getenv("ALLOWED_ORIGINS", "http://localhost:5173,http://127.0.0.1:5173").split(",")
+ALLOWED_ORIGINS = _os.getenv("ALLOWED_ORIGINS", "http://localhost:5173,http://127.0.0.1:5173,https://safe-grain-beras.vercel.app").split(",")
 
 app.add_middleware(
     CORSMiddleware,
