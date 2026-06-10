@@ -1,4 +1,4 @@
-const BASE = ''
+const BASE = 'https://safe-grain-beras-production.up.railway.app'
 
 export async function detectRice(imageBase64, basePrice = 0) {
   const res = await fetch(`${BASE}/detect`, {
