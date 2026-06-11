@@ -3,23 +3,19 @@ import { Eye, Code, ChartBar, Cpu, Stack, FilePdf, UsersThree } from '@phosphor-
 const teams = [
   {
     role: 'Computer Vision',
-    members: ['Andy Bagus Oesmadi', 'Maulidah Imroatus Solehah', 'Mishal Eman'],
+    members: ['Andy Bagus Oesmadi', 'Zacky Maulana'],
   },
   {
     role: 'Front-End, Back-End & UI/UX',
-    members: ['Venerdi Dinarsa Narendra Putra C.', 'Vlahadiqa Runayasha Khandeva W.', 'Zacky Maulana'],
-  },
-  {
-    role: 'System Analyst',
-    members: ['Muhammad Zidan Al Farezel', 'Vichars Mazcheranou Hafizh'],
+    members: ['Venerdi Dinarsa Narendra Putra C.', 'Vlahadiqa Runayasha Khandeva W.'],
   },
 ]
 
 const stack = [
-  { label: 'Model AI',   value: 'YOLOv8 · Ultralytics',          Icon: Cpu },
-  { label: 'Backend',    value: 'Python · FastAPI · SQLAlchemy',  Icon: Stack },
-  { label: 'Frontend',   value: 'React 18 · Vite · Tailwind CSS', Icon: Code },
-  { label: 'PDF Export', value: 'jsPDF',                          Icon: FilePdf },
+  { label: 'Model AI', value: 'YOLOv8 · Ultralytics', Icon: Cpu },
+  { label: 'Backend', value: 'Python · FastAPI · SQLAlchemy', Icon: Stack },
+  { label: 'Frontend', value: 'React 18 · Vite · Tailwind CSS', Icon: Code },
+  { label: 'PDF Export', value: 'jsPDF', Icon: FilePdf },
 ]
 
 export default function AboutPage() {
@@ -114,7 +110,7 @@ export default function AboutPage() {
         }}>
           TIM PENGEMBANG
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 16 }}>
           {teams.map(({ role, members }) => (
             <div key={role} style={{
               background: '#fff',
