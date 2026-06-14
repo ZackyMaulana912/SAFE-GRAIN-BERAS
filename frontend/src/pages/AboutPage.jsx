@@ -2,11 +2,11 @@ import { Eye, Code, ChartBar, Cpu, Stack, FilePdf, UsersThree } from '@phosphor-
 
 const teams = [
   {
-    role: 'Computer Vision',
+    role: 'AI Engineer',
     members: ['Andy Bagus Oesmadi', 'Zacky Maulana'],
   },
   {
-    role: 'Front-End, Back-End & UI/UX',
+    role: 'UI/UX & Front-End, Back-End',
     members: ['Venerdi Dinarsa Narendra Putra C.', 'Vlahadiqa Runayasha Khandeva W.'],
   },
 ]
